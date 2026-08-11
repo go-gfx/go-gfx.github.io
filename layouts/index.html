@@ -1,0 +1,110 @@
+{{ define "main" }}
+<section class="hero">
+  <img class="hero-logo" src="{{ "img/logo.svg" | relURL }}" alt="go-gfx logo" width="96" height="96">
+  <h1>
+    <span class="accent">{{ .Site.Params.heroAccent }}</span>
+  </h1>
+  {{ with .Site.Params.heroTagline }}<p class="tag">{{ . }}</p>{{ end }}
+  <div class="intro">
+    {{ range .Site.Params.heroIntro }}<p>{{ . | safeHTML }}</p>{{ end }}
+  </div>
+  <div class="cta">
+    <a class="btn btn-primary" href="https://go-gfx.github.io/docs/">Documentation</a>
+    <a class="btn btn-ghost" href="https://github.com/go-gfx/gfx">GitHub</a>
+  </div>
+  <p class="pills">
+    <span class="pill">Pure Go</span>
+    <span class="pill">CGO=0</span>
+    <span class="pill">Zero dependencies</span>
+    <span class="pill">6 architectures</span>
+    <span class="pill">BSD-3-Clause</span>
+  </p>
+</section>
+
+<section id="why">
+  <h2>Why go-gfx</h2>
+  <p>
+    2D graphics in most languages means binding a C engine &mdash; Skia, Cairo, Pixman.
+    Across the Go fleet, several libraries had each grown their <em>own</em> copy of the
+    same primitives: an image processor resampling pixels, a widget toolkit rasterizing
+    vector paths, a web engine decoding image codecs, a desktop stack rendering icons.
+    <strong>go-gfx</strong> extracts that shared substrate into one pure-Go, cgo-free
+    module so colour blending, resampling, codecs and path rasterization are written and
+    tested <strong>once</strong>. It follows the Skia / Cairo / <code>image/draw</code>
+    layering: a foundation below, many renderers on top. It depends on nothing fleet-side
+    except <a href="https://github.com/go-asmgen">go-asmgen</a> for optional SIMD, and it
+    cross-compiles to a static binary on every 64-bit target.
+  </p>
+</section>
+
+<section id="packages">
+  <h2>Packages</h2>
+  <p class="section-lead">
+    A single Go module, <code>github.com/go-gfx/gfx</code>, split into focused packages —
+    import only what you need.
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gfx/tree/main/geometry">geometry</a></h4>
+      <p>Points, rectangles and affine transforms — the coordinate math shared by every layer: translate, scale, rotate, shear, compose and invert.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gfx/tree/main/color">color</a></h4>
+      <p>Colour science: RGB / XYZ / Lab, sRGB&harr;linear conversion, premultiplied alpha, and Porter-Duff / separable blend modes done correctly in linear light.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gfx/tree/main/raster">raster</a></h4>
+      <p>The shared pixel-buffer and pixel-format substrate — the common image surface every consumer reads and writes, with format conversions between them.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gfx/tree/main/resample">resample</a></h4>
+      <p>High-quality resizing: box / area averaging, bicubic (Catmull-Rom) and Lanczos, separable and weight-precomputed, validated against reference implementations.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gfx/tree/main/codec">codec</a></h4>
+      <p>Image decoders and encoders &mdash; PNG, JPEG, WebP, ICO, ICNS, GIF, TIFF &mdash; one shared set that subsumes the codecs each consumer used to hand-roll.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gfx/tree/main/vector">vector</a></h4>
+      <p>Paths, an anti-aliased scanline rasterizer, strokes and gradients &mdash; the 2D vector engine renderers build on instead of rolling their own.</p>
+    </div>
+  </div>
+</section>
+
+<section id="consumers">
+  <h2>Consumers</h2>
+  <p class="section-lead">
+    go-gfx is a foundation: it is meant to be depended on. These fleet libraries build on it
+    instead of each re-implementing the same primitives.
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h4><a href="https://github.com/go-images/images">go-images</a></h4>
+      <p>The scikit-image-style image-processing library. Filters, edges and morphology built on <code>raster</code>, <code>color</code> and <code>resample</code>.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-widgets">go-widgets/painter</a></h4>
+      <p>The tri-backend widget renderer. Path fills, strokes and gradients built on <code>vector</code>, <code>raster</code> and <code>color</code>.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-webengine">go-webengine</a></h4>
+      <p>The headless HTML/CSS &rarr; image engine (no Chromium). Layout painting built on <code>resample</code>, <code>codec</code> and <code>vector</code>.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-widgets">go-widgets/desktop</a></h4>
+      <p>The desktop shell. Icon and thumbnail rendering built on <code>codec</code> and <code>resample</code>, replacing hand-rolled ICNS/ICO decoders.</p>
+    </div>
+  </div>
+</section>
+
+<section id="quality">
+  <h2>Quality bar</h2>
+  <ul class="features">
+    <li><strong>Pure Go.</strong> <code>CGO_ENABLED=0</code> across the org. No Skia, no Cairo, no native shims.</li>
+    <li><strong>Zero dependencies.</strong> Nothing fleet-side except <a href="https://github.com/go-asmgen">go-asmgen</a> for optional SIMD, pulled in only at code-generation time.</li>
+    <li><strong>100% test coverage.</strong> Gated in CI, including error branches, validated against reference implementations.</li>
+    <li><strong>Six architectures.</strong> Build + test on all six of Go's 64-bit targets &mdash; amd64 / arm64 natively, loong64 / riscv64 / ppc64le / s390x under qemu.</li>
+    <li><strong>BSD-3-Clause</strong> on every source file.</li>
+  </ul>
+</section>
+{{ end }}
