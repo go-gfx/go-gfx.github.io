@@ -9,8 +9,8 @@
     {{ range .Site.Params.heroIntro }}<p>{{ . | safeHTML }}</p>{{ end }}
   </div>
   <div class="cta">
-    <a class="btn btn-primary" href="https://go-gfx.github.io/docs/">Documentation</a>
-    <a class="btn btn-ghost" href="https://github.com/go-gfx/gfx">GitHub</a>
+    <a class="btn btn-primary" href="https://go-gfx.github.io/docs/">{{ partial "icons/book.html" . }}Documentation</a>
+    <a class="btn btn-ghost" href="https://github.com/go-gfx/gfx">{{ partial "icons/mark-github.html" . }}GitHub</a>
   </div>
   <p class="pills">
     <span class="pill">Pure Go</span>
