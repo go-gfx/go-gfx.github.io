@@ -71,6 +71,24 @@
   </div>
 </section>
 
+<section id="webgpu">
+  <h2>WebGPU in the browser</h2>
+  <p class="section-lead">
+    A second module, <code>github.com/go-gfx/webgpu</code>: the GPU layer for Go programs built with
+    <code>GOOS=js</code>. <strong>In development, not released yet.</strong>
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/webgpu">webgpu</a></h4>
+      <p>A typed API over the browser's WebGPU: devices, buffers, textures, pipelines, render bundles, OffscreenCanvas surfaces. Out-of-range writes are errors at the call, and quotas let an embedder run untrusted code.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://go-gfx.github.io/docs/main/webgpu/#batched-encoding">Batched encoding</a></h4>
+      <p>A whole submit recorded in Go and replayed with one JavaScript call: about six times fewer CPU microseconds per frame than one call per draw.</p>
+    </div>
+  </div>
+</section>
+
 <section id="consumers">
   <h2>Consumers</h2>
   <p class="section-lead">
