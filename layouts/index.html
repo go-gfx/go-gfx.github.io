@@ -62,7 +62,7 @@
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gfx/tree/main/codec">codec</a></h4>
-      <p>Image decoders and encoders &mdash; PNG, JPEG, WebP, ICO, ICNS, GIF, TIFF &mdash; one shared set that subsumes the codecs each consumer used to hand-roll.</p>
+      <p>Image decoders and encoders &mdash; PNG, JPEG, WebP, ICO, ICNS, GIF, TIFF &mdash; one shared set that subsumes the codecs each consumer used to hand-roll. Hardened decoders: Netpbm and QOI headers are checked against the file before any allocation (v0.36.2), and ICO is decoded in-house, bounded and with Chromium's alpha rule (v0.36.3).</p>
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gfx/tree/main/vector">vector</a></h4>
