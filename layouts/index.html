@@ -84,7 +84,7 @@
     </div>
     <div class="card">
       <h4><a href="https://go-gfx.github.io/docs/main/webgpu/#batched-encoding">Batched encoding</a></h4>
-      <p>A whole submit recorded in Go and replayed with one JavaScript call: about six times fewer CPU microseconds per frame than one call per draw.</p>
+      <p>A whole submit recorded in Go and replayed with one JavaScript call: about six times fewer CPU microseconds per frame than one call per draw. The stream format is a portable package (<code>wire</code>), so another process can check a stream and remap its object ids before replaying it.</p>
     </div>
   </div>
 </section>
