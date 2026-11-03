@@ -79,7 +79,7 @@
   <h2>WebGPU in the browser</h2>
   <p class="section-lead">
     A second module, <code>github.com/go-gfx/webgpu</code>: the GPU layer for Go programs built with
-    <code>GOOS=js</code>. <strong>Released: v0.1.0.</strong>
+    <code>GOOS=js</code>. <strong>Released: v0.7.0.</strong>
   </p>
   <div class="grid">
     <div class="card">
@@ -89,6 +89,10 @@
     <div class="card">
       <h4><a href="https://go-gfx.github.io/docs/main/webgpu/#batched-encoding">Batched encoding</a></h4>
       <p>A whole submit recorded in Go and replayed with one JavaScript call: about six times fewer CPU microseconds per frame than one call per draw. The stream format is a portable package (<code>wire</code>), so another process can check a stream and remap its object ids before replaying it. Outside the browser, a remote device sends the same API's work (descriptors and streams) to a device that runs it. For example, a VM guest's program runs on the browser's GPU through <a href="https://github.com/go-virtio/gpudev">go-virtio/gpudev</a>.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://go-gfx.github.io/docs/main/webgpu/#read-back">Read-back and the host context</a></h4>
+      <p>Since v0.7.0 a stream can read a GPU buffer back: <code>Recorder.ReadBuffer</code> (opcode 34, stream version 4) returns a bounded window with the submit, at about 124 &micro;s for 4 KiB and 155 &micro;s for 1 MiB on Apple Metal. The new <code>batch</code> package is the transport-free host side of a stream: private guest ids, checked reads, one implementation for every transport.</p>
     </div>
   </div>
 </section>
