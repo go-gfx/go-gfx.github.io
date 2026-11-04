@@ -98,6 +98,10 @@
       <h4><a href="https://go-gfx.github.io/docs/main/webgpu/#batch">Range checks on replay</a></h4>
       <p>Since v0.8.0 <code>wire.CheckRanges</code> refuses, before the backend or <code>replay.js</code> runs, a buffer write or copy outside its buffer, indirect arguments that leave the buffer, and a dispatch above <code>maxComputeWorkgroupsPerDimension</code>. Errors wrap <code>wire.ErrRange</code>, and the check is fuzzed.</p>
     </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/wgsl">wgsl</a></h4>
+      <p>A pure-Go WGSL front end, <code>github.com/go-gfx/wgsl</code>: lexer, parser, printer (the output re-parses to an equal AST), name resolution and type checking. Reserved words such as <code>meta</code> are rejected with a line and column, and every input is bounded. Checked against the W3C WebGPU CTS validation cases; the <code>wgsl check</code> and <code>wgsl fmt</code> commands run it from a shell. <a href="https://go-gfx.github.io/docs/main/wgsl/">Docs</a>.</p>
+    </div>
   </div>
 </section>
 
