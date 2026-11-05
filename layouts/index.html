@@ -79,7 +79,7 @@
   <h2>WebGPU in the browser</h2>
   <p class="section-lead">
     A second module, <code>github.com/go-gfx/webgpu</code>: the GPU layer for Go programs built with
-    <code>GOOS=js</code>. <strong>Released: v0.8.0.</strong>
+    <code>GOOS=js</code>. <strong>Released: v0.15.0.</strong>
   </p>
   <div class="grid">
     <div class="card">
@@ -101,6 +101,29 @@
     <div class="card">
       <h4><a href="https://github.com/go-gfx/wgsl">wgsl</a></h4>
       <p>A pure-Go WGSL front end, <code>github.com/go-gfx/wgsl</code>: lexer, parser, printer (the output re-parses to an equal AST), name resolution and type checking. Reserved words such as <code>meta</code> are rejected with a line and column, and every input is bounded. Checked against the W3C WebGPU CTS validation cases; the <code>wgsl check</code> and <code>wgsl fmt</code> commands run it from a shell. Since v0.2.0 a loop-budget transform bounds every <code>loop</code>, <code>for</code> and <code>while</code> and sets a flag the host reads back when a run is cut; it does not depend on the checker, which is not yet a security boundary. <a href="https://go-gfx.github.io/docs/main/wgsl/">Docs</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gpu2d">
+  <h2>2D on the GPU</h2>
+  <p class="section-lead">
+    A third module, <code>github.com/go-gfx/gpu2d</code>: one backend-neutral list of instances, drawn by
+    WebGPU in the browser or by a Metal compute kernel on a Mac, and held to a CPU reference that defines
+    every pixel. <strong>Released: v0.1.0.</strong>
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gpu2d">gpu2d</a></h4>
+      <p>Fills and outlines, square or with anti-aliased rounded corners, under nested translations and clips. <code>Rasterize</code>, the CPU reference, equals go-widgets/painter's <code>PixelPainter</code> byte for byte over 3000 random scenes.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gpu2d#measured">13 to 32 times faster</a></h4>
+      <p>A widget-toolkit frame on an Apple M4 Max: 13.1 ms at 1080p and 52.5 ms at 4K on <code>PixelPainter</code>; 0.99 ms and 1.62 ms with WebGPU in Chromium; 1.08 ms and 2.79 ms with the Metal kernel, binning included.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gpu2d#metal-package-metal-macos">Exact on the GPU</a></h4>
+      <p>The Metal kernel blends with the reference's integer arithmetic and differs on no channel of any pixel. WebGPU's fixed-function blending matches every channel over an opaque surface; over a translucent one alpha differs by up to 4, and the tests report it.</p>
     </div>
   </div>
 </section>
