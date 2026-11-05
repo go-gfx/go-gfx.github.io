@@ -34,6 +34,11 @@ disableKinds = ['taxonomy', 'term', 'rss', 'sitemap']
     url        = "#webgpu"
     weight     = 25
   [[menu.main]]
+    identifier = "gpu2d"
+    name       = "GPU 2D"
+    url        = "#gpu2d"
+    weight     = 27
+  [[menu.main]]
     identifier = "quality"
     name       = "Quality"
     url        = "#quality"
