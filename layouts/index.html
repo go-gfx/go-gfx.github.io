@@ -110,7 +110,7 @@
   <p class="section-lead">
     A third module, <code>github.com/go-gfx/gpu2d</code>: one backend-neutral list of instances, drawn by
     WebGPU in the browser or by a Metal compute kernel on a Mac, and held to a CPU reference that defines
-    every pixel. <strong>Released: v0.3.0.</strong>
+    every pixel. <strong>Released: v0.5.1.</strong>
   </p>
   <div class="grid">
     <div class="card">
@@ -124,6 +124,10 @@
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gpu2d#metal-package-metal-macos">Asynchronous submit</a></h4>
       <p>Since v0.3.0 the Metal renderer has <code>Submit</code> and <code>Wait</code>, with two frames in flight, so the CPU records the next frame while the GPU draws this one: 3.17 ms per frame with <code>Draw</code> against 1.78 ms with 1.5 ms of CPU work, on go-macos/metal v0.4.0.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gpu2d">Presented in a browser canvas</a></h4>
+      <p>Since v0.5.0 <code>webgpu.Renderer.Present(surface)</code> draws into a canvas texture (<code>CanvasDescriptor()</code>: rgba8unorm, RENDER_ATTACHMENT|COPY_DST) with a byte-exact <code>copyTextureToTexture</code>; v0.5.1 adds <code>Renderer.Destroy()</code>, which refunds buffers and texture to the device quota. go-widgets/webcanvas v0.9.0 uses it.</p>
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gpu2d#metal-package-metal-macos">Exact on the GPU</a></h4>
