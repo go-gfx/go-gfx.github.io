@@ -110,7 +110,7 @@
   <p class="section-lead">
     A third module, <code>github.com/go-gfx/gpu2d</code>: one backend-neutral list of instances, drawn by
     WebGPU in the browser or by a Metal compute kernel on a Mac, and held to a CPU reference that defines
-    every pixel. <strong>Released: v0.5.2.</strong>
+    every pixel. <strong>Released: v0.6.0.</strong>
   </p>
   <div class="grid">
     <div class="card">
@@ -127,7 +127,7 @@
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gpu2d">Presented in a browser canvas</a></h4>
-      <p>Since v0.5.0 <code>webgpu.Renderer.Present(surface)</code> draws into a canvas texture (<code>CanvasDescriptor()</code>: rgba8unorm, RENDER_ATTACHMENT|COPY_DST) with a byte-exact <code>copyTextureToTexture</code>; v0.5.1 adds <code>Renderer.Destroy()</code>, which refunds buffers and texture to the device quota. go-widgets/webcanvas v0.9.0 uses it.</p>
+      <p>Since v0.5.0 <code>webgpu.Renderer.Present(surface)</code> puts the frame into a canvas texture on the GPU, byte-exact. Since v0.6.0 <code>CanvasDescriptor()</code> follows the browser's preferred format, so on macOS and Windows the frame is drawn into a bgra8unorm canvas and the compositor's extra copy is gone: 1.053 → 0.792 ms per 4K frame (−24.8 %). <code>Renderer.Destroy()</code> refunds buffers and texture to the device quota. go-widgets/webcanvas uses it.</p>
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gpu2d">One coverage, written in WGSL</a></h4>
