@@ -100,7 +100,7 @@
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/wgsl">wgsl</a></h4>
-      <p>A pure-Go WGSL front end, <code>github.com/go-gfx/wgsl</code>: lexer, parser, printer (the output re-parses to an equal AST), name resolution and type checking. Reserved words such as <code>meta</code> are rejected with a line and column, and every input is bounded. Checked against the W3C WebGPU CTS validation cases; the <code>wgsl check</code> and <code>wgsl fmt</code> commands run it from a shell. Since v0.2.0 a loop-budget transform bounds every <code>loop</code>, <code>for</code> and <code>while</code> and sets a flag the host reads back when a run is cut; it does not depend on the checker, which is not yet a security boundary. <a href="https://go-gfx.github.io/docs/main/wgsl/">Docs</a>.</p>
+      <p>A pure-Go WGSL front end, <code>github.com/go-gfx/wgsl</code>: lexer, parser, printer (the output re-parses to an equal AST), name resolution and type checking. Reserved words such as <code>meta</code> are rejected with a line and column, and every input is bounded. Checked against the W3C WebGPU CTS validation cases; the <code>wgsl check</code> and <code>wgsl fmt</code> commands run it from a shell. Since v0.2.0 a loop-budget transform bounds every <code>loop</code>, <code>for</code> and <code>while</code> and sets a flag the host reads back when a run is cut; it does not depend on the checker, which is not yet a security boundary. Since v0.5.0 package <code>msl</code> emits Metal Shading Language for the functions of a checked module, with WGSL's own semantics rather than Metal's defaults: fast math off, signed overflow wrapping, and WGSL's results for a zero divisor and <code>MIN / -1</code>. Run on a Mac's GPU, it matches WGSL's definitions over 361 integer edge pairs; Metal's plain <code>1 / 0</code> gives −1 where WGSL defines 1. <a href="https://go-gfx.github.io/docs/main/wgsl/">Docs</a>.</p>
     </div>
   </div>
 </section>
@@ -110,7 +110,7 @@
   <p class="section-lead">
     A third module, <code>github.com/go-gfx/gpu2d</code>: one backend-neutral list of instances, drawn by
     WebGPU in the browser or by a Metal compute kernel on a Mac, and held to a CPU reference that defines
-    every pixel. <strong>Released: v0.5.1.</strong>
+    every pixel. <strong>Released: v0.5.2.</strong>
   </p>
   <div class="grid">
     <div class="card">
@@ -128,6 +128,10 @@
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gpu2d">Presented in a browser canvas</a></h4>
       <p>Since v0.5.0 <code>webgpu.Renderer.Present(surface)</code> draws into a canvas texture (<code>CanvasDescriptor()</code>: rgba8unorm, RENDER_ATTACHMENT|COPY_DST) with a byte-exact <code>copyTextureToTexture</code>; v0.5.1 adds <code>Renderer.Destroy()</code>, which refunds buffers and texture to the device quota. go-widgets/webcanvas v0.9.0 uses it.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gpu2d">One coverage, written in WGSL</a></h4>
+      <p>Since v0.5.2 the Metal kernel's coverage functions are generated from the WebGPU shader by go-gfx/wgsl's <code>msl</code> package, so the arithmetic is no longer written twice. The kernel stays byte-identical to the CPU reference (max |Δ| 0 over 3,686,400 channels), and a test fails if the WGSL changes without the Metal file being regenerated.</p>
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gpu2d#metal-package-metal-macos">Exact on the GPU</a></h4>
