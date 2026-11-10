@@ -100,7 +100,7 @@
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/wgsl">wgsl</a></h4>
-      <p>A pure-Go WGSL front end, <code>github.com/go-gfx/wgsl</code>: lexer, parser, printer (the output re-parses to an equal AST), name resolution and type checking. Reserved words such as <code>meta</code> are rejected with a line and column, and every input is bounded. Checked against the W3C WebGPU CTS validation cases; the <code>wgsl check</code> and <code>wgsl fmt</code> commands run it from a shell. Since v0.2.0 a loop-budget transform bounds every <code>loop</code>, <code>for</code> and <code>while</code> and sets a flag the host reads back when a run is cut; it does not depend on the checker, which is not yet a security boundary. Since v0.5.0 package <code>msl</code> emits Metal Shading Language for the functions of a checked module, with WGSL's own semantics rather than Metal's defaults: fast math off, signed overflow wrapping, and WGSL's results for a zero divisor and <code>MIN / -1</code>. Run on a Mac's GPU, it matches WGSL's definitions over 361 integer edge pairs; Metal's plain <code>1 / 0</code> gives −1 where WGSL defines 1. <a href="https://go-gfx.github.io/docs/main/wgsl/">Docs</a>.</p>
+      <p>A pure-Go WGSL front end, <code>github.com/go-gfx/wgsl</code>: lexer, parser, printer (the output re-parses to an equal AST), name resolution and type checking. Reserved words such as <code>meta</code> are rejected with a line and column, and every input is bounded. Checked against the W3C WebGPU CTS validation cases; the <code>wgsl check</code> and <code>wgsl fmt</code> commands run it from a shell. Since v0.2.0 a loop-budget transform bounds every <code>loop</code>, <code>for</code> and <code>while</code> and sets a flag the host reads back when a run is cut; it does not depend on the checker, which is not yet a security boundary. Since v0.5.0 package <code>msl</code> emits Metal Shading Language for the functions of a checked module, with WGSL's own semantics rather than Metal's defaults: fast math off, signed overflow wrapping, and WGSL's results for a zero divisor and <code>MIN / -1</code>. Run on a Mac's GPU, it matches WGSL's definitions over 361 integer edge pairs; Metal's plain <code>1 / 0</code> gives −1 where WGSL defines 1. Since v0.9.0 package <code>spirv</code> emits SPIR-V 1.5 (the Vulkan 1.2 environment) and package <code>hlsl</code> emits Shader Model 5.0 HLSL for compute entry points, for the subset a fill kernel needs; the rest is refused with a position. SPIR-V is validated by <code>spirv-val</code> in CI; the HLSL is compiled and run on Direct3D 11 WARP. Neither has run on a GPU. <a href="https://go-gfx.github.io/docs/main/wgsl/">Docs</a>.</p>
     </div>
   </div>
 </section>
@@ -109,8 +109,8 @@
   <h2>2D on the GPU</h2>
   <p class="section-lead">
     A third module, <code>github.com/go-gfx/gpu2d</code>: one backend-neutral list of instances, drawn by
-    WebGPU in the browser or by a Metal compute kernel on a Mac, and held to a CPU reference that defines
-    every pixel. <strong>Released: v0.6.0.</strong>
+    WebGPU in the browser, a Metal compute kernel on a Mac, Vulkan on Linux or Direct3D 11 on Windows, and held
+    to a CPU reference that defines every pixel. <strong>Released: v0.10.0.</strong>
   </p>
   <div class="grid">
     <div class="card">
@@ -135,7 +135,33 @@
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/gpu2d#metal-package-metal-macos">Exact on the GPU</a></h4>
-      <p>The Metal kernel blends with the reference's integer arithmetic and differs on no channel of any pixel. WebGPU's fixed-function blending matches every channel over an opaque surface; over a translucent one alpha differs by up to 4, and the tests report it.</p>
+      <p>The Metal kernel blends with the reference's integer arithmetic and differs on no channel of any pixel. WebGPU's fixed-function blending matches every channel over an opaque surface; over a translucent one alpha differs by up to 4, and the tests report it. WebGPU also has an opt-in compute mode (<code>NewCompute</code>) that runs the whole raster kernel and is byte-identical to the reference over any ground.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gpu2d#vulkan-package-vulkan-linux">Vulkan on Linux</a></h4>
+      <p>Since v0.10.0 package <code>vulkan</code> runs the same raster kernel through <a href="https://github.com/go-gfx/vulkan">go-gfx/vulkan</a>, as SPIR-V generated from the WGSL kernel by go-gfx/wgsl's <code>spirv</code> package. CI runs it on lavapipe (Mesa's software Vulkan) with the Khronos validation layer, failing on any message, and finds 0 differing channels against the CPU reference on both grounds. lavapipe proves the bindings and the kernel, not the arithmetic or the speed of a GPU: no real-GPU result is measured yet.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/gpu2d#direct3d-11-package-d3d11-windows-opt-in">Direct3D 11 on Windows, opt-in</a></h4>
+      <p>Package <code>d3d11</code> runs the kernel as HLSL generated from the same WGSL by go-gfx/wgsl's <code>hlsl</code> package, through <a href="https://github.com/go-mswin/d3d11">go-mswin/d3d11</a>. It ships opt-in, and only WARP (the software device of a <code>windows-latest</code> runner) has run it: parity with the reference on WARP measures WARP's arithmetic, not any GPU, and no Windows GPU has run it yet. Off Windows, and where no device exists, the constructors return an error and a caller falls back to the CPU. <a href="https://github.com/go-gfx/gpu2d/blob/main/docs/NATIVE.md">docs/NATIVE.md</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="vulkan">
+  <h2>Vulkan, without cgo</h2>
+  <p class="section-lead">
+    A fourth module, <code>github.com/go-gfx/vulkan</code>: a pure-Go binding to the part of Vulkan a compute
+    workload needs. <strong>Released: v0.2.1.</strong>
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/vulkan">vulkan</a></h4>
+      <p>Calls the system loader <code>libvulkan.so.1</code> through <a href="https://github.com/ebitengine/purego">purego</a>, so a binary built with <code>CGO_ENABLED=0</code> can be cross-compiled on one machine and copied to another that has a Vulkan driver. Instance, physical-device choice, one device with one compute queue, host-visible and device-local buffers, SPIR-V shaders, compute pipelines, command buffers with <code>Barrier</code>, and fences. Compute only, 64-bit Linux (linux/amd64 and linux/arm64): no window-system integration, no graphics pipelines.</p>
+    </div>
+    <div class="card">
+      <h4><a href="https://github.com/go-gfx/vulkan#testing">Proven on lavapipe with the validation layer</a></h4>
+      <p>CI builds the tests <code>CGO_ENABLED=0</code> and runs a compute dispatch of a kernel emitted by go-gfx/wgsl on lavapipe with the Khronos validation layer: the expected bytes, and zero validation messages. Break checks show the lane can fail, including a <code>SYNC-HAZARD</code> without <code>Barrier</code>. Buffer sizes are checked in 64 bits before allocation. No real GPU result is measured yet.</p>
     </div>
   </div>
 </section>
