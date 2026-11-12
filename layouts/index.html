@@ -110,7 +110,7 @@
   <p class="section-lead">
     A third module, <code>github.com/go-gfx/gpu2d</code>: one backend-neutral list of instances, drawn by
     WebGPU in the browser, a Metal compute kernel on a Mac, Vulkan on Linux or Direct3D 11 on Windows, and held
-    to a CPU reference that defines every pixel. <strong>Released: v0.10.0.</strong>
+    to a CPU reference that defines every pixel. <strong>Released: v0.12.1.</strong>
   </p>
   <div class="grid">
     <div class="card">
@@ -161,7 +161,7 @@
     </div>
     <div class="card">
       <h4><a href="https://github.com/go-gfx/vulkan#testing">Proven on lavapipe with the validation layer</a></h4>
-      <p>CI builds the tests <code>CGO_ENABLED=0</code> and runs a compute dispatch of a kernel emitted by go-gfx/wgsl on lavapipe with the Khronos validation layer: the expected bytes, and zero validation messages. Break checks show the lane can fail, including a <code>SYNC-HAZARD</code> without <code>Barrier</code>. Buffer sizes are checked in 64 bits before allocation. No real GPU result is measured yet.</p>
+      <p>CI builds the tests <code>CGO_ENABLED=0</code> and runs a compute dispatch of a kernel emitted by go-gfx/wgsl on lavapipe with the Khronos validation layer: the expected bytes, and zero validation messages. Break checks show the lane can fail, including a <code>SYNC-HAZARD</code> without <code>Barrier</code>. Buffer sizes are checked in 64 bits before allocation. This lane is software only; the real-GPU result is go-gfx/gpu2d's, on an AMD Radeon PRO W7700 (RADV), in the 2D on the GPU section above.</p>
     </div>
   </div>
 </section>
